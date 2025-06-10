@@ -1,8 +1,8 @@
 #
-# @lc app=leetcode.cn id=21 lang=python3
+# @lc app=leetcode.cn id=2 lang=python3
 # @lcpr version=30201
 #
-# [21] 合并两个有序链表
+# [2] 两数相加
 #
 
 import sys
@@ -20,43 +20,45 @@ from common.node import *
 #         self.val = val
 #         self.next = next
 class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        p1, p2 = l1, l2
         dummy = ListNode(-1)
         p = dummy
-        p1 = list1
-        p2 = list2
-        while p1 is not None and p2 is not None:
-            if p1.val <= p2.val:
-                p.next = p1
+        carry = 0
+        while p1 is not None or p2 is not None or carry > 0:
+            val = carry
+            if p1 is not None:
+                val += p1.val
                 p1 = p1.next
-            else:
-                p.next = p2
+            if p2 is not None:
+                val += p2.val
                 p2 = p2.next
+            carry, val = divmod(val, 10)
+            p.next = ListNode(val)
             p = p.next
-        if p1 is not None:
-            p.next = p1
-        if p2 is not None:
-            p.next = p2
         return dummy.next
 # @lc code=end
 
 if __name__ == '__main__':
     solution = Solution()
     # your test code here
-
+    l1 = ListNode.create_head([2,4,3])
+    l2 = ListNode.create_head([5,6,4])
+    res = solution.addTwoNumbers(l1, l2)
+    ListNode.print(res)
 
 
 #
 # @lcpr case=start
-# [1,2,4]\n[1,3,4]\n
+# [2,4,3]\n[5,6,4]\n
 # @lcpr case=end
 
 # @lcpr case=start
-# []\n[]\n
+# [0]\n[0]\n
 # @lcpr case=end
 
 # @lcpr case=start
-# []\n[0]\n
+# [9,9,9,9,9,9,9]\n[9,9,9,9]\n
 # @lcpr case=end
 
 #
