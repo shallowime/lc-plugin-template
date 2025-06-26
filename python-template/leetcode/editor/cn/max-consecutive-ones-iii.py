@@ -16,12 +16,26 @@ from common.node import *
 # @lc code=start
 class Solution:
     def longestOnes(self, nums: List[int], k: int) -> int:
-        
+        left, right = 0, 0
+        windowOneCount = 0
+        res = 0
+        while right < len(nums):
+            if nums[right] == 1:
+                windowOneCount += 1
+            right += 1
+            while right - left - windowOneCount > k:
+                if nums[left] == 1:
+                    windowOneCount -= 1
+                left += 1
+            res = max(res, right - left)
+        return res
+
 # @lc code=end
 
 if __name__ == '__main__':
     solution = Solution()
     # your test code here
+    print(solution.longestOnes([1,1,1,0,0,0,1,1,1,1,0], 2))
 
 
 
