@@ -16,13 +16,29 @@ from common.node import *
 # @lc code=start
 class Solution:
     def simplifyPath(self, path: str) -> str:
-        
+        parts = path.split('/')
+        stk = []
+        for part in parts:
+            if part == '..':
+                if stk:
+                    stk.pop()
+            elif part == '.' or part == '':
+                continue
+            else:
+                stk.append(part)
+
+        return '/' + '/'.join(stk)
+
 # @lc code=end
 
 if __name__ == '__main__':
     solution = Solution()
     # your test code here
-
+    print(solution.simplifyPath("/home/"))
+    print(solution.simplifyPath("/home//foo/"))
+    print(solution.simplifyPath("/home/user/Documents/../Pictures"))
+    print(solution.simplifyPath("/../"))
+    print(solution.simplifyPath("/.../a/../b/c/../d/./"))
 
 
 #
