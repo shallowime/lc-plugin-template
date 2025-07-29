@@ -21,12 +21,25 @@ from common.node import *
 #         self.next = next
 class Solution:
     def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
+        nums = []
+        p = head
+        while p is not None:
+            nums.append(p.val)
+            p = p.next
         
+        res = [0] * len(nums)
+        stk = []
+        for i in range(len(nums) - 1, -1, -1):
+            while len(stk) > 0 and stk[-1] <= nums[i]:
+                stk.pop()
+            res[i] = 0 if not stk else stk[-1]
+            stk.append(nums[i])
+        return res
 # @lc code=end
 
 if __name__ == '__main__':
     solution = Solution()
-    # your test code here
+    print(solution.nextLargerNodes(ListNode(2, ListNode(1, ListNode(5)))))
 
 
 
