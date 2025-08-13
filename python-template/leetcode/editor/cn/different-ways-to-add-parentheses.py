@@ -15,13 +15,40 @@ from common.node import *
 
 # @lc code=start
 class Solution:
+    def __init__(self) -> None:
+        self.memo = {}
+
     def diffWaysToCompute(self, expression: str) -> List[int]:
+        if expression in self.memo:
+            return self.memo[expression]
         
+        res = []
+        for i in range(len(expression)):
+            c = expression[i]
+            if c == '-' or c == '+' or c == '*':
+                left = self.diffWaysToCompute(expression[:i])
+                right = self.diffWaysToCompute(expression[i+1:])
+
+                for a in left:
+                    for b in right:
+                        if c == "+":
+                            res.append(a + b)
+                        elif c == "-":
+                            res.append(a - b)
+                        elif c == "*":
+                            res.append(a * b)
+        
+        if not res:
+            res.append(int(expression))
+
+        self.memo[expression] = res
+        return res
 # @lc code=end
 
 if __name__ == '__main__':
     solution = Solution()
-    # your test code here
+    print(solution.diffWaysToCompute("2-1-1"))
+    print(solution.diffWaysToCompute("2*3-4*5"))
 
 
 
